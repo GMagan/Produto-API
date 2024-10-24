@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    container_name: produtos-api
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: mobdev
+      POSTGRES_DB: produto-db
+    ports:
+      - "54321:54321"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  meu_volume:
