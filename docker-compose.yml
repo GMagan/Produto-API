@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "12345:12345"
+      - "3000:3000"
     environment:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
