@@ -1,17 +1,41 @@
-version: '3.1'
+version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "12345:12345"
+    environment:
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGHOST=db
+      - PGPORT=54322
+      - PGDATABASE=${PGDATABASE}
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
   db:
-    image: postgres
+    image: postgres:15
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: mobdev
-      POSTGRES_DB: produtodb
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
     ports:
-      - "54321:54321"
+      - "54321:54322"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
 
 volumes:
-  db-data:
+  pgdata:
+
+networks:
+  app-network:
