@@ -11,7 +11,7 @@ services:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=db
-      - PGPORT=54322
+      - PGPORT=5433
       - PGDATABASE=${PGDATABASE}
     depends_on:
       - db
@@ -28,7 +28,7 @@ services:
       POSTGRES_PASSWORD: ${PGPASSWORD}
       POSTGRES_DB: ${PGDATABASE}
     ports:
-      - "54321:54322"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:

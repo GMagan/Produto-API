@@ -2,6 +2,37 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+router.get('/', async (req, res) => {
+   
+   try {
+      const result = await pool.query(
+         'SELECT * FROM produtos'
+      )
+      res.status(200).json(result.rows)
+   } catch (err) {
+      console.log('Could not find product: ', err.message)
+      res.status(500).json({ error: err.message })
+   }
+   
+})
+
+router.get('/:id', async (req, res) => {
+   
+   const { id } = req.params
+   
+   try {
+      const result = await pool.query(
+         'SELECT * FROM produtos WHERE $1 = produtos.id',
+         [id]
+      )
+      res.status(200).json(result.rows)
+   } catch (err) {
+      console.log('Could not find product using id: ', err.message)
+      res.status(500).json({ error: err.message })
+
+   }
+})
+
 router.post('/', async (req, res) => {
    const { descricao, preco, estoque } = req.body;
 
@@ -16,38 +47,6 @@ router.post('/', async (req, res) => {
       res.status(500).json({ error: err.message });
    }
 });
-
-
-router.get('/', async (req, res) => {
-
-   try {
-      const result = await pool.query(
-         'SELECT * FROM produtos'
-      )
-      res.status(200).json(result.rows)
-   } catch (err) {
-      console.log('Could not find product: ', err.message)
-      res.status(500).json({ error: err.message })
-   }
-
-})
-
-router.get('/:id', async (req, res) => {
-
-   const { id } = req.params
-
-   try {
-      const result = await pool.query(
-         'SELECT * FROM produtos WHERE $1 = produtos.id',
-         [id]
-      )
-      res.status(200).json(result.rows)
-   } catch (err) {
-      console.log('Could not find product using id: ', err.message)
-      res.status(500).json({ error: err.message })
-
-   }
-})
 
 router.put('/:id', async (req, res) => {
 
