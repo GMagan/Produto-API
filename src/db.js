@@ -23,7 +23,6 @@ const runScript = async (filePath) => {
 
 const runAllScripts = async () => {
    await runScript(`database/tablecreator.sql`);
-   await runScript("database/seed.sql");
 };
 
 runAllScripts();
